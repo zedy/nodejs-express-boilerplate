@@ -1,0 +1,18 @@
+# Node
+/node_modules
+
+# Tests
+/coverage
+
+# Prod
+/dist
+*.tsbuildinfo
+
+# Environment Variables
+.env
+
+# Files
+error.log
+
+# IDE
+.vscode
