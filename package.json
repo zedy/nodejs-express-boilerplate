@@ -84,10 +84,9 @@
     "test": "jest --coverage --detectOpenHandles",
     "start": "node dist/index",
     "dev": "NODE_ENV=development ts-node-dev --respawn --transpile-only ./src/index.ts",
-    "build": "tsc -p tsconfig.prod.json",
+    "build": "tsc -p tsconfig.build.json",
     "eslint:analyze": "eslint --ext .ts ./src",
-    "eslint:fix": "eslint --fix --ext .ts ./src",
-    "postbuild": "cp -r ./src/docs ./dist"
+    "eslint:fix": "eslint --fix --ext .ts ./src"
   },
   "license": "ISC"
 }

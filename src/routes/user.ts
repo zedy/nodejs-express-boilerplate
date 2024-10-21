@@ -7,21 +7,20 @@ import { jwtMiddleware } from '../middleware/auth';
 
 // controllers
 import {
-  updateUser,
-  findOrCreateUser,
-  deleteUser,
-  getUserById,
   importUsers,
+  createUser,
+  deleteUser,
+  updateUser,
+  getUserById,
 } from '../controllers/UserController';
 
 const userRoute = Router();
 
 // boilerplate routes for users
-userRoute.get('/import', jwtMiddleware, createRouteHandler(importUsers));
-userRoute.post('/', jwtMiddleware, createRouteHandler(findOrCreateUser));
+userRoute.post('/', jwtMiddleware, createRouteHandler(createUser));
+userRoute.post('/import', jwtMiddleware, createRouteHandler(importUsers));
 userRoute.put('/:id', jwtMiddleware, createRouteHandler(updateUser));
-userRoute.patch('/:id', jwtMiddleware, createRouteHandler(updateUser));
-userRoute.get('/:id', createRouteHandler(getUserById));
+userRoute.get('/:id', jwtMiddleware, createRouteHandler(getUserById));
 userRoute.delete('/:id', jwtMiddleware, createRouteHandler(deleteUser));
 
 export default userRoute;

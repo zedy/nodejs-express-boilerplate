@@ -1,10 +1,10 @@
 // libs
 import { Router } from 'express';
 
-import { findOrCreateUser } from '../controllers/UserController';
+// import { findOrCreateUser } from '../controllers/UserController';
 
 // utils
-import createRouteHandler from '../utils/routeHandler';
+// import createRouteHandler from '../utils/routeHandler';
 import { loginMiddleware, jwtMiddleware } from '../middleware/auth';
 
 const authRoute = Router();
@@ -24,6 +24,6 @@ authRoute.get('/user', jwtMiddleware, async (req, res) => {
 });
 
 // Registration/Signup
-authRoute.post('/register', createRouteHandler(findOrCreateUser));
+// authRoute.post('/register', createRouteHandler(findOrCreateUser));
 
 export default authRoute;

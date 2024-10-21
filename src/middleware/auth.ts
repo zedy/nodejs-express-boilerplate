@@ -18,7 +18,7 @@ export const loginMiddleware = (req, res, next) => {
         const token = getToken({
           email: user.email,
           id: user.id,
-          role: user.role,
+          username: user.role,
         });
 
         res.locals.token = token;

@@ -8,7 +8,7 @@ import createRouteHandler from '../utils/routeHandler';
 const testRoute = Router();
 
 const testFn = async () => ({
-  data: ['123', 'abc'],
+  data: ['1234', 'abc'],
 });
 
 // Use this route for any non-auth logic

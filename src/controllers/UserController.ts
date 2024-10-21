@@ -1,5 +1,10 @@
+// libs
+import { isEmpty } from 'lodash';
+
 // models
-import User from '../models/sequalize/user';
+import User from '../models/user';
+
+// services
 import fetchUsers from '../services/user.service';
 
 // utils
@@ -9,8 +14,16 @@ import { getToken } from '../utils/jwt';
 const importUsers = controllerHandler(async (req) => {
   const { limit, pagination } = req.query;
 
+  if (!pagination) {
+    throw new Error('Pagination is missing from the query string');
+  }
+
+  if (!limit) {
+    throw new Error('Limit is missing from the query string');
+  }
+
   const users = await fetchUsers(limit, pagination);
-  const result = await User.bulkCreate(users);
+  const result = await User.insertMany(users);
 
   return {
     result,
@@ -19,73 +32,62 @@ const importUsers = controllerHandler(async (req) => {
 });
 
 const createUser = controllerHandler(async (req) => {
-  const [user, created] = await User.findOrCreate({
-    where: { email: req.body.email },
-    defaults: {
-      salt: '',
-      ...req.body,
-    },
-  });
+  const { body } = req;
+  const user = await User.create(body);
 
   return {
-    user, created,
+    user,
+    message: 'User created',
   };
 });
 
 const updateUser = controllerHandler(async (req) => {
   const { id } = req.params;
+  const { body } = req;
 
-  const result = await User.update(id, req.body);
-  return result;
+  if (!id) {
+    throw new Error('Id is missing');
+  }
+
+  if (!body || isEmpty(body)) {
+    throw new Error('No fields provided');
+  }
+
+  const user = await User.findByIdAndUpdate(id, body);
+
+  return {
+    user,
+  };
 });
 
 const getUserById = controllerHandler(async (req) => {
   const { id } = req.params;
 
-  const result = await User.findByPk(id);
-
-  return result ? {
-    user: result.dataValues,
-  } : {
-    message: 'User not found.',
-  };
-});
-
-const findOrCreateUser = controllerHandler(async (req, res) => {
-  // step 1: create a new user if it doesn't exist
-  const { user, created } = await createUser(req, res);
-
-  if (!created) {
-    return { message: 'Email already registered.', created };
-  }
-
-  // step 2: create JWT token
-  const token = getToken({
-    id: user.getDataValue('id'),
-    email: user.getDataValue('email'),
-    role: user.getDataValue('role'),
-  });
+  const user = await User.findById(id);
 
   return {
     user,
-    token,
-    created,
-    message: 'User succesfully created.',
   };
 });
 
 const deleteUser = controllerHandler(async (req) => {
   const { id } = req.params;
 
-  const result = await User.destroy(id);
-  return result;
+  if (!id) {
+    throw new Error('Id is missing');
+  }
+
+  const result = await User.deleteOne({ id });
+
+  return {
+    message: `User ${result.acknowledged ? 'deleted' : 'not found'}`,
+  };
 });
 
 export {
   importUsers,
-  getUserById,
-  findOrCreateUser,
-  createUser,
-  updateUser,
   deleteUser,
+  updateUser,
+  getUserById,
+  createUser,
 };

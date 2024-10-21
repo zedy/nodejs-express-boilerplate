@@ -1,11 +1,20 @@
 /* eslint-disable no-console */
-import mongoose from 'mongoose';
+import { connect } from 'mongoose';
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
+const uri = process.env.ENV === 'DEV' ? process.env.LOCAL_MONGO_URI : process.env.DOCKER_MONGO_URI;
+
+const dbConnection = async () => {
+  console.log(`MongoDB connections string: ${uri}`);
+
+  connect(uri, {
+    directConnection: true,
   })
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB:', err);
-  });
+    .then(() => {
+      console.log('Connected to MongoDB');
+    })
+    .catch((err) => {
+      console.error('Failed to connect to MongoDB:', err);
+    });
+};
+
+export default dbConnection;

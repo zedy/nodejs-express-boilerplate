@@ -10,6 +10,7 @@ const controllerHandler = (callback) => async (req, res) => {
       ...data,
     };
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.debug(e);
 
     logger.log({
@@ -19,6 +20,7 @@ const controllerHandler = (callback) => async (req, res) => {
     return {
       success: false,
       message: e.message,
+      tits: 'yes',
     };
   }
 };

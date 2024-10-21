@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // libs
 import WebSocket from 'ws';
 import http from 'http';
@@ -5,6 +6,16 @@ import 'dotenv/config';
 
 // models
 import createServer from './server';
+
+// db
+import dbConnection from './db/mongo';
+
+type WebsocketCustom = {
+  isAlive: boolean;
+} & WebSocket;
+
+// Initialize the DB connection
+dbConnection();
 
 // Initialize Express
 const app = createServer();
@@ -20,13 +31,14 @@ function heartbeat() {
   this.isAlive = true;
 }
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws: WebsocketCustom) => {
   ws.isAlive = true;
   ws.on('pong', heartbeat);
 });
 
 const interval = setInterval(() => {
-  wss.clients.forEach((ws) => {
+  // eslint-disable-next-line consistent-return
+  wss.clients.forEach((ws: WebsocketCustom) => {
     if (!ws.isAlive) return ws.terminate();
 
     ws.isAlive = false;

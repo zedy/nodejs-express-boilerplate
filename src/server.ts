@@ -37,7 +37,6 @@ const corsMiddlewareOptions = {
 };
 
 function createServer() {
-// Initialize Express
   const app = express();
 
   // Secure HTTP headers
@@ -57,7 +56,7 @@ function createServer() {
   });
 
   app.use(cors(corsMiddlewareOptions));
-  app.options('*', cors()); // include before other routes
+  app.options('*', cors());
   // or
   app.options('/api/any/url/example', cors(corsMiddlewareOptions));
 
@@ -70,6 +69,7 @@ function createServer() {
   app.use(passport.initialize());
 
   // List of all API routes
+
   // Authentication routes
   app.use('/api/auth', authentication);
 

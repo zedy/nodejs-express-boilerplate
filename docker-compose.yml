@@ -1,11 +1,19 @@
 version: '3'
 services:
   app:
-    build: .
+    # build: ./
+    build:
+      context: ./
+      dockerfile: Dockerfile.code
     ports:
       - "5000:5000"
     environment:
-      - MONGO_URI=mongodb://mongo:27017/mongodb_test
+      - DOCKER_MONGO_URI=mongodb://mongo:27017/test_123
+      - ENV=DOCKER
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules 
     depends_on:
       - mongo
 
@@ -13,7 +21,7 @@ services:
     image: mongo:5
     restart: always
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - mongo-data:/data/db
 

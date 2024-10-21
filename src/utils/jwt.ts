@@ -2,10 +2,17 @@
 import * as jwt from 'jsonwebtoken';
 
 // interface
-import { JWTPayload } from '../types/User';
+import { UserBasic } from '../types/User';
 
-export const getToken = (user: JWTPayload) => {
-  const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+const secret = process.env.JWT_SECRET || 'da6a0bf3-ab77-42bd-954d-71f3314496c5';
+
+const payload = {
+  aud: 'nodejs-server',
+  iat: Math.floor(Date.now() / 1000),
+};
+
+export const getToken = (userPayload: UserBasic) => {
+  const token = jwt.sign({ user: userPayload, ...payload }, secret, {
     expiresIn: '12h',
   });
 
