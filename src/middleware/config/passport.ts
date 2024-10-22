@@ -47,7 +47,7 @@ passport.use('local', new LocalStrategy({
 passport.use('jwt', new Strategy(opts, async (jwtPayload, done) => {
   try {
     const { aud } = jwtPayload;
-console.log(jwtPayload);
+
     if (aud !== opts.audience) {
       return done(null, false, { message: 'Auth Failed.' });
     }

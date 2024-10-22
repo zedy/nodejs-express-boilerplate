@@ -9,7 +9,6 @@ import fetchUsers from '../services/user.service';
 
 // utils
 import controllerHandler from '../utils/controllerHandler';
-import { getToken } from '../utils/jwt';
 
 const importUsers = controllerHandler(async (req) => {
   const { limit, pagination } = req.query;
