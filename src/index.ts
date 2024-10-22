@@ -4,18 +4,12 @@ import WebSocket from 'ws';
 import http from 'http';
 import 'dotenv/config';
 
-// models
+// modelsW
 import createServer from './server';
-
-// db
-import dbConnection from './db/mongo';
 
 type WebsocketCustom = {
   isAlive: boolean;
 } & WebSocket;
-
-// Initialize the DB connection
-dbConnection();
 
 // Initialize Express
 const app = createServer();

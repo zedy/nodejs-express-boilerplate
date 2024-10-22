@@ -6,12 +6,7 @@ import responseTime from 'response-time';
 import 'dotenv/config';
 
 // routes
-import authentication from './routes/authentication';
-import userRoutes from './routes/user';
 import testRoute from './routes/test';
-
-// configs
-import passport from './middleware/config/passport';
 
 const whitelist = [
   process.env.CLIENT_APP_URL,
@@ -66,16 +61,8 @@ function createServer() {
 
   // Initialize authentication middleware
   app.set('trust proxy', 1);
-  app.use(passport.initialize());
 
   // List of all API routes
-
-  // Authentication routes
-  app.use('/api/auth', authentication);
-
-  // User routes
-  app.use('/api/user', userRoutes);
-
   // Test routes
   app.use('/api/test', testRoute);
 

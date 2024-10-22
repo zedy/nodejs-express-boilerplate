@@ -2,7 +2,6 @@
 import { Router } from 'express';
 
 // utils
-import { jwtMiddleware } from '../middleware/auth';
 import createRouteHandler from '../utils/routeHandler';
 
 const testRoute = Router();
@@ -15,6 +14,6 @@ const testFn = async () => ({
 testRoute.get('/non-auth', createRouteHandler(testFn));
 
 // Use this route for any auth-based logic
-testRoute.get('/auth', jwtMiddleware, createRouteHandler(testFn));
+testRoute.get('/auth', createRouteHandler(testFn));
 
 export default testRoute;
